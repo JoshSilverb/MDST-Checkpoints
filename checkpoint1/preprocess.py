@@ -19,13 +19,10 @@ This should load the data, perform preprocessing, and save the output to the dat
 """
 
 import re
+import pandas as pd
 
 def remove_percents(df, col):
-    def rp_helper(elt):
-        elt = elt[:-1]
-        return elt
-
-    df[col] = df[col].apply(rp_helper)
+    df[col] = df[col].str.rstrip("%")
 
     return df
 
@@ -34,7 +31,7 @@ def fill_zero_iron(df):
     return df
     
 def fix_caffeine(df):
-    df2 = pandas.to_numeric(df['Caffeine (mg)'], errors='coerce')
+    df2 = pd.to_numeric(df['Caffeine (mg)'], errors='coerce')
     df2.fillna(value=df2.mean())
     df['Caffeine (mg)'] = df2
     return df
@@ -80,6 +77,7 @@ def main():
     
     # now that the data is all clean, save your output to the `data` folder as 'starbucks_clean.csv'
     # you will use this file in checkpoint 2
+    df.to_csv("../data/starbucks_clean.csv")
     
     
 
