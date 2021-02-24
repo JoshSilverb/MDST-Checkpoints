@@ -22,7 +22,7 @@ import re
 import pandas as pd
 
 def remove_percents(df, col):
-    df[col] = df[col].str.rstrip("%")
+    df[col] = int(df[col].str.rstrip("%"))
 
     return df
 
@@ -38,10 +38,12 @@ def fix_caffeine(df):
 
 def standardize_names(df):
     df.columns = df.columns.str.replace("\([^()]*\)", "").str.lower()
+    df.columns = df.columns.str.rstrip(" ")
+
     return df
 
 def fix_strings(df, col):
-    df[col] = df[col].str.replace("[^a-zA-Z]+", "")
+    df[col] = df[col].str.lower().replace("[^a-zA-Z]+", "")
     return df
 
 
